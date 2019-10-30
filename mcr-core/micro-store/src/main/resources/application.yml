@@ -1,6 +1,8 @@
 spring:
   application:
     name: store
+  profiles:
+    active: development
 
 server:
   port: 8080

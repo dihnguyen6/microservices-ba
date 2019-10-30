@@ -4,13 +4,16 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: /api
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://eureka:8761/eureka}
     register-with-eureka: true
     fetch-registry: true
-
 spring:
   application:
     name: zuul-gateway
+  profiles:
+    active: development
+
+zuul:
+  prefix: /api
