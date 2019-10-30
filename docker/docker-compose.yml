@@ -1,0 +1,27 @@
+version: '3'
+services:
+  eureka:
+    build: ../mcr-core/application-discovery
+    ports:
+      - "8761:8761"
+  customer:
+    build: ../mcr-core/micro-customer
+    links:
+     - eureka
+  store:
+    build: ../mcr-core/micro-store
+    links:
+     - eureka
+  order:
+    build: ../mcr-core/micro-order
+    links:
+     - eureka
+  gateway:
+    build: ../mcr-core/application-gateway
+    links:
+     - eureka
+    ports:
+      - "8080:8080"
+  
+
+
