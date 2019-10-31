@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class IOrderService implements OrderService{
+
     private final OrderRepository orderRepository;
     private final CustomerClient customerClient;
     private final StoreClient storeClient;
@@ -40,17 +41,20 @@ public class IOrderService implements OrderService{
     }
 
     @Override
-    public Order save(Order order) {
+    public void save(Order order) {
         if (order.getNumberOfLines() == 0)
             throw new IllegalArgumentException("No order lines");
         if (!customerClient.isValidCustomerId(order.getCustomerId()))
             throw new IllegalArgumentException("Customer does not exist");
-        return orderRepository.save(order);
+        /*if (order.getTotalPrice() == 0)
+            order.setTotalPrice(order.totalPrice(storeClient));*/
+        orderRepository.save(order);
     }
 
     public double getPrice(ObjectId orderId) {
         return orderRepository.findOrderById(orderId).totalPrice(storeClient);
     }
+
     @Override
     public void delete(ObjectId orderId) {
         Order o = findOrderById(orderId);

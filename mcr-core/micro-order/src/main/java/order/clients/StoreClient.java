@@ -1,23 +1,17 @@
 package order.clients;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.hal.Jackson2HalModule;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+
+import static order.clients.MyRestTemplate.getRestTemplate;
 
 @Component
 public class StoreClient {
@@ -41,7 +35,7 @@ public class StoreClient {
         this.storeServicePort = storeServicePort;
     }
 
-    protected RestTemplate getRestTemplate() {
+    /*protected RestTemplate getRestTemplate() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
@@ -53,7 +47,7 @@ public class StoreClient {
 
         return new RestTemplate(
                 Collections.<HttpMessageConverter<?>>singletonList(converter));
-    }
+    }*/
 
     public Collection<Product> findAll() {
         PagedResources<Product> pagedResources = restTemplate.getForObject(
@@ -63,13 +57,13 @@ public class StoreClient {
 
     private String storeURL() {
         String url = String.format("http://%s:%s/", storeServiceHost, storeServicePort);
-        LOG.trace("Catalog: URL {} ", url);
+        LOG.trace("Store: URL {} ", url);
         return url;
     }
 
     public Product getOne(ObjectId productId) {
         Product p = restTemplate.getForObject(storeURL() + productId, Product.class);
-        return p;//restTemplate.getForObject(storeURL() + productId, Product.class);
+        return p;
     }
 
     public double getPrice(ObjectId productId) {

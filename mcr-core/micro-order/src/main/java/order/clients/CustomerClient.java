@@ -1,25 +1,19 @@
 package order.clients;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+
+import static order.clients.MyRestTemplate.getRestTemplate;
 
 @Component
 public class CustomerClient {
@@ -56,7 +50,7 @@ public class CustomerClient {
         }
     }
 
-    protected RestTemplate getRestTemplate() {
+    /*protected RestTemplate getRestTemplate() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
@@ -68,9 +62,9 @@ public class CustomerClient {
 
         return new RestTemplate(
                 Collections.<HttpMessageConverter<?>>singletonList(converter));
-    }
+    }*/
 
-    public Collection<Customer> findAll() {
+    public Collection<Customer> findAllCustomers() {
         PagedResources<Customer> pagedResources = getRestTemplate()
                 .getForObject(customerURL(), CustomerPagedResources.class);
         return pagedResources.getContent();
@@ -82,8 +76,8 @@ public class CustomerClient {
         return url;
     }
 
-    public Customer getOne(ObjectId customerId) {
+    /*public Customer findCustomerById(ObjectId customerId) {
         return restTemplate.getForObject(customerURL() + customerId,
                 Customer.class);
-    }
+    }*/
 }

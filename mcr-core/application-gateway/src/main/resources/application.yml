@@ -17,3 +17,12 @@ spring:
 
 zuul:
   prefix: /api
+  host:
+    socket-timeout-millis: 30000
+  routes:
+    customer-service:
+      serviceId: customer
+    store-service:
+      serviceId: store
+    order-service:
+      serviceId: order
