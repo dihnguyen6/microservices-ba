@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static order.clients.MyRestTemplate.getRestTemplate;
 
@@ -50,24 +52,10 @@ public class CustomerClient {
         }
     }
 
-    /*protected RestTemplate getRestTemplate() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                false);
-        mapper.registerModule(new Jackson2HalModule());
-
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_JSON));
-        converter.setObjectMapper(mapper);
-
-        return new RestTemplate(
-                Collections.<HttpMessageConverter<?>>singletonList(converter));
-    }*/
-
-    public Collection<Customer> findAllCustomers() {
+    public List<Customer> findAllCustomers() {
         PagedResources<Customer> pagedResources = getRestTemplate()
                 .getForObject(customerURL(), CustomerPagedResources.class);
-        return pagedResources.getContent();
+        return new ArrayList<>(pagedResources.getContent());
     }
 
     private String customerURL() {

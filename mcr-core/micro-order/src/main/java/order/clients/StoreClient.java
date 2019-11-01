@@ -9,7 +9,9 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static order.clients.MyRestTemplate.getRestTemplate;
 
@@ -26,7 +28,6 @@ public class StoreClient {
     private long storeServicePort;
 
     @Autowired
-
     public StoreClient(
             @Value("${store.services.host:store}") String storeServiceHost,
             @Value("${store.services.port:8080}") long storeServicePort) {
@@ -35,24 +36,10 @@ public class StoreClient {
         this.storeServicePort = storeServicePort;
     }
 
-    /*protected RestTemplate getRestTemplate() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                false);
-        mapper.registerModule(new Jackson2HalModule());
-
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_JSON));
-        converter.setObjectMapper(mapper);
-
-        return new RestTemplate(
-                Collections.<HttpMessageConverter<?>>singletonList(converter));
-    }*/
-
-    public Collection<Product> findAll() {
+    public List<Product> findAllProducts() {
         PagedResources<Product> pagedResources = restTemplate.getForObject(
                 storeURL(), ProductPagedResources.class);
-        return pagedResources.getContent();
+        return new ArrayList<>(pagedResources.getContent());
     }
 
     private String storeURL() {
@@ -61,12 +48,12 @@ public class StoreClient {
         return url;
     }
 
-    public Product getOne(ObjectId productId) {
+    public Product findProductById(ObjectId productId) {
         Product p = restTemplate.getForObject(storeURL() + productId, Product.class);
         return p;
     }
 
     public double getPrice(ObjectId productId) {
-        return getOne(productId).getPrice();
+        return findProductById(productId).getPrice();
     }
 }

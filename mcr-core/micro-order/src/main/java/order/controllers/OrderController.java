@@ -5,10 +5,9 @@ import order.clients.CustomerClient;
 import order.clients.Product;
 import order.clients.StoreClient;
 import order.controllers.exceptions.ResourceNotFoundException;
+import order.models.Form;
 import order.models.Order;
 import order.models.OrderLine;
-import order.models.OrderStatus;
-import order.repositories.OrderLineRepository;
 import order.services.OrderService;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -24,10 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
-
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -40,8 +38,6 @@ public class OrderController {
     private final CustomerClient customerClient;
     private final StoreClient storeClient;
     private final OrderResourceAssembler orderResourceAssembler;
-    @Autowired
-    private OrderLineRepository orderLineRepository;
 
     @Autowired
     public OrderController(OrderService orderService,
@@ -70,7 +66,7 @@ public class OrderController {
 
     @GetMapping(value = "/{orderId}")
     public ResponseEntity<Resource<Order>> getOrderById(@PathVariable ObjectId orderId) {
-        Order order =  orderService.findOrderById(orderId);
+        Order order = orderService.findOrderById(orderId);
         if (order == null)
             throw new ResourceNotFoundException("Order", "id", orderId);
         LOG.info("Found: - {}", order);
@@ -94,38 +90,28 @@ public class OrderController {
 
     @PostMapping(value = "/")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        orderService.save(order);
+        Order o = orderService.create(order);
+        LOG.info("Created: - {}", o);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-   /* @GetMapping(value = "/products")
-    public ResponseEntity<Collection<Product>> allProducts() {
-        return ResponseEntity.ok(storeClient.findAll());
-    }
-
-    @GetMapping(value = "/customers")
-    public ResponseEntity<Collection<Customer>> allCustomer() {
-        return ResponseEntity.ok(customerClient.findAllCustomers());
-    }*/
 
     @GetMapping(value = "/{orderId}/complete")
     public ResponseEntity<Order> completeOrder(@PathVariable ObjectId orderId) {
         Order o = orderService.findOrderById(orderId);
-        o.setStatus(OrderStatus.COMPLETE);
-        orderService.save(o);
-        return ResponseEntity.ok(o);
+        return ResponseEntity.ok(orderService.complete(o));
     }
 
     @GetMapping(value = "/init")
-    public ResponseEntity<Order> initOrder() {
-        Collection<Product> products = storeClient.findAll();
-        Collection<Customer> customers = customerClient.findAllCustomers();
-        OrderLine ol = new OrderLine(2, products.iterator().next().getProductId());
-        orderLineRepository.save(ol);
-        Order o = new Order();
-        o.setCustomerId(customers.iterator().next().getCustomerId());
-        o.addLine(orderLineRepository.findAll().get(0));
-        orderService.save(o);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Form> initOrder() {
+        List<Product> products = storeClient.findAllProducts();
+        List<Customer> customers = customerClient.findAllCustomers();
+        Form f = new Form();
+        f.setCustomerId(customers.get(0).getCustomerId());
+        Random index = new Random();
+        for (int i = 0; i < 5; i++) {
+            f.addFormLine(1 + index.nextInt(9),
+                    products.get(index.nextInt(products.size())).getProductId());
+        }
+        return ResponseEntity.ok(f);
     }
 }

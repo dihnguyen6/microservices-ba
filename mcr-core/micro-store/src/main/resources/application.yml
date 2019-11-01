@@ -13,3 +13,9 @@ eureka:
       defaultZone: ${EUREKA_URI:http://eureka:8761/eureka}
   instance:
     preferIpAddress: true
+    lease-expiration-duration-in-seconds: 2
+    lease-renewal-interval-in-seconds: 1
+
+ribbon:
+  eureka:
+    enabled: false

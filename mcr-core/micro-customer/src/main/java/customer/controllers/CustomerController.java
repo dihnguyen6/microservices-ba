@@ -7,7 +7,6 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,7 +32,8 @@ public class CustomerController {
     private final CustomerResourceAssembler customerResourceAssembler;
 
     @Autowired
-    public CustomerController(CustomerServices customerServices, CustomerResourceAssembler customerResourceAssembler) {
+    public CustomerController(CustomerServices customerServices,
+                              CustomerResourceAssembler customerResourceAssembler) {
         this.customerServices = customerServices;
         this.customerResourceAssembler = customerResourceAssembler;
     }
@@ -66,18 +64,6 @@ public class CustomerController {
                 .getCustomerById(customerId)).toUri())
                 .body(customerResourceAssembler.toResource(customer));
     }
-
-    /*@GetMapping(value = "/pages")
-    public ResponseEntity<Page<Customer>> findAllCustomersWithPage (@RequestParam int page, @RequestParam int size) {
-        Page<Customer> customers = customerServices.findAllCustomerWithPages(page, size);
-        if (customers.isEmpty()) {
-            throw new ResourceNotFoundException("Customer");
-        }
-        final PageResourceSupport<Customer> response =
-                new PageResourceSupport<>(customers, "page", "size");
-        LOG.info("Found: - [{}, Page: - {}, Size: - {}].", customers, page, size);
-        return ResponseEntity.ok(response);
-    }*/
 
     @PostMapping(value = "/")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {

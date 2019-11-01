@@ -9,6 +9,7 @@ eureka:
       defaultZone: ${EUREKA_URI:http://eureka:8761/eureka}
     register-with-eureka: true
     fetch-registry: true
+
 spring:
   application:
     name: zuul-gateway
@@ -19,10 +20,15 @@ zuul:
   prefix: /api
   host:
     socket-timeout-millis: 30000
+    connect-timeout-millis: 30000
   routes:
-    customer-service:
+    customer:
+      path: /customer/**
       serviceId: customer
-    store-service:
+    store:
+      path: /store/**
       serviceId: store
-    order-service:
+    order:
+      path: /order/**
       serviceId: order
+

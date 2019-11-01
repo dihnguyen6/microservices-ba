@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "order")
-public class Order  extends PagingResourceSupport {
+public class Order extends PagingResourceSupport {
     @Id
     private ObjectId orderId;
 
@@ -32,10 +32,6 @@ public class Order  extends PagingResourceSupport {
     @JsonSerialize(using = ObjectId_Serializer.class)
     public ObjectId getOrderId() {
         return orderId;
-    }
-
-    public void setOrderId(ObjectId orderId) {
-        this.orderId = orderId;
     }
 
     @JsonSerialize(using = ObjectId_Serializer.class)
@@ -87,5 +83,14 @@ public class Order  extends PagingResourceSupport {
         return orderLine.stream()
                 .map((ol) -> ol.getAmount() * storeClient.getPrice(ol.getProductId()))
                 .reduce(0.0, (d1, d2) -> d1 + d2);
+    }
+
+    @Override
+    public String toString() {
+        return "Order: - " + getOrderId()
+                + ", customerId: - " + getCustomerId()
+                + ", orderLine: - " + getOrderLine()
+                + ", totalPrice: - " + getTotalPrice()
+                + ", status: - " + getStatus();
     }
 }

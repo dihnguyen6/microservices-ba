@@ -23,7 +23,6 @@ public class OrderResourceAssembler implements ResourceAssembler<Order, Resource
                     .completeOrder(order.getOrderId()))
                     .withRel("complete"));
         }
-
         return resource;
     }
 }

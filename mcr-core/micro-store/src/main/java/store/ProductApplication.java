@@ -10,10 +10,8 @@ import store.models.Product;
 import store.services.CategoryService;
 import store.services.ProductService;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -58,7 +56,7 @@ public class ProductApplication implements CommandLineRunner {
                     p.setDescription("fashion@htwk-leipzig.de");
                     p.setName(j);
                     p.setUnit("Stück");
-                    p.setPrice(Double.parseDouble(format.format(20 + r.nextDouble()*(80 - 20))));
+                    p.setPrice(Double.parseDouble(format.format(20 + r.nextDouble() * (80 - 20))));
                     productService.save(p);
                 }
             } else if (i.getName().equals("Information")) {
@@ -68,7 +66,7 @@ public class ProductApplication implements CommandLineRunner {
                     p.setUnit("Stück");
                     p.setDescription("info@htwk-leipzig.de");
                     p.setCategory(i);
-                    p.setPrice(Double.parseDouble(format.format(200 + r.nextDouble()*(1000 - 200))));
+                    p.setPrice(Double.parseDouble(format.format(200 + r.nextDouble() * (1000 - 200))));
                     productService.save(p);
                 }
             } else {
@@ -78,7 +76,7 @@ public class ProductApplication implements CommandLineRunner {
                     p.setName(j);
                     p.setDescription("Office@htwk-leipzig.de");
                     p.setUnit("Stück");
-                    p.setPrice(Double.parseDouble(format.format(10 + r.nextDouble()*(30 - 10))));
+                    p.setPrice(Double.parseDouble(format.format(10 + r.nextDouble() * (30 - 10))));
                     productService.save(p);
                 }
             }
