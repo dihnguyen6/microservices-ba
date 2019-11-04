@@ -31,4 +31,3 @@ zuul:
     order:
       path: /order/**
       serviceId: order
-

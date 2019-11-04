@@ -12,10 +12,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import static order.clients.MyRestTemplate.getRestTemplate;
+import static order.MyRestTemplate.getRestTemplate;
 
 @Component
 public class CustomerClient {

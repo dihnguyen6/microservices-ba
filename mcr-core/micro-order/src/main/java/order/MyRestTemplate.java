@@ -1,4 +1,4 @@
-package order.clients;
+package order;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class MyRestTemplate {
 
-    static RestTemplate getRestTemplate() {
+    public static RestTemplate getRestTemplate() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
