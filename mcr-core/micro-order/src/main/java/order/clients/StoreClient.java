@@ -49,6 +49,7 @@ public class StoreClient {
 
     public Product findProductById(ObjectId productId) {
         Product p = restTemplate.getForObject(storeURL() + productId, Product.class);
+        LOG.info("Found: - {}", p);
         return p;
     }
 

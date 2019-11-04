@@ -42,6 +42,8 @@ public class CustomerClient {
         try {
             ResponseEntity<String> entity = restTemplate.getForEntity(
                     customerURL() + customerId, String.class);
+            if (entity.getStatusCode().is2xxSuccessful())
+                LOG.info("Found: - {}", findCustomerById(customerId));
             return entity.getStatusCode().is2xxSuccessful();
         } catch (final HttpClientErrorException e) {
             if (e.getStatusCode().value() == 404)
@@ -63,8 +65,8 @@ public class CustomerClient {
         return url;
     }
 
-    /*public Customer findCustomerById(ObjectId customerId) {
+    public Customer findCustomerById(ObjectId customerId) {
         return restTemplate.getForObject(customerURL() + customerId,
                 Customer.class);
-    }*/
+    }
 }
