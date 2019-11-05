@@ -13,6 +13,10 @@
         <module>micro-store</module>
         <module>micro-customer</module>
         <module>micro-order</module>
+        <module>zlocal-application-gateway</module>
+        <module>zlocal-micro-store</module>
+        <module>zlocal-micro-customer</module>
+        <module>zlocal-micro-order</module>
     </modules>
 
     <packaging>pom</packaging>

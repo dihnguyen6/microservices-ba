@@ -7,5 +7,9 @@
     <file url="file://$PROJECT_DIR$/micro-customer" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/micro-order" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/micro-store" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zlocal-application-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zlocal-micro-customer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zlocal-micro-order" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zlocal-micro-store" charset="UTF-8" />
   </component>
 </project>

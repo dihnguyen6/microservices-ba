@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8080}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+
+spring:
+  application:
+    name: zuul-gateway
+  profiles:
+    active: development
+
+zuul:
+  prefix: /api
+  host:
+    socket-timeout-millis: 30000
+    connect-timeout-millis: 30000
+  routes:
+    customer:
+      path: /customer/**
+      serviceId: customer
+    store:
+      path: /store/**
+      serviceId: store
+    order:
+      path: /order/**
+      serviceId: order
