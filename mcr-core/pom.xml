@@ -17,6 +17,7 @@
         <module>zlocal-micro-store</module>
         <module>zlocal-micro-customer</module>
         <module>zlocal-micro-order</module>
+        <module>zusatz-mongodb-with-rest</module>
     </modules>
 
     <packaging>pom</packaging>

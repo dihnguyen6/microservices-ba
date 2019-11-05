@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="application-discovery" />
         <module name="local-micro-store" />
+        <module name="zusatz-mongodb-with-rest" />
         <module name="application-gateway" />
         <module name="local-micro-customer" />
         <module name="micro-customer" />
@@ -29,6 +30,7 @@
       <module name="micro-customer" options="-parameters" />
       <module name="micro-order" options="-parameters" />
       <module name="micro-store" options="-parameters" />
+      <module name="zusatz-mongodb-with-rest" options="-parameters" />
     </option>
   </component>
 </project>
