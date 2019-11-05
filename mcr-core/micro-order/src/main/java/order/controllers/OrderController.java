@@ -95,10 +95,11 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{orderId}/complete")
+    @PostMapping(value = "/{orderId}/complete")
     public ResponseEntity<Order> completeOrder(@PathVariable ObjectId orderId) {
         Order o = orderService.findOrderById(orderId);
-        return ResponseEntity.ok(orderService.complete(o));
+        orderService.complete(o);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/init")
